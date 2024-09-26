@@ -143,6 +143,9 @@ class SIPClient:
         if type(message) is SIPRequest:
             if message.method == SIPMethod.INVITE:
                 self._handle_invite(conn)
+            elif message.method == SIPMethod.OPTIONS:
+                request = self.gen_ok(message)
+                conn.send(request)
 
     def _handle_invite(self, conn: "VoIPConnection") -> None:
         message = SIPMessage.from_bytes(conn.peak())
